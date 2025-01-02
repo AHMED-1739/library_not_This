@@ -75,11 +75,12 @@ namespace dosomething
             Books.Add(Added_Book);
         }
         //Show random books to user
-        public void DisPlayRandomBook()
+        public List<Book> DisPlayRandomBook()
         {
+            List<Book> temp_List=new List<Book>();
             int limit;
             if (Books.Count == 0)
-            { WriteLine("there is no book in this library!."); return; }
+            { WriteLine("there is no book in this library!."); return null; }
             else if (Books.Count < 4)
                 limit = Books.Count;
             else
@@ -88,20 +89,23 @@ namespace dosomething
             int i = 0;
             while (i < limit)
             {
+                int index = random.Next(0, Books.Count);
                 ForegroundColor = ConsoleColor.Black;
                 BackgroundColor = ConsoleColor.White;
-                int index = random.Next(0, Books.Count);
-                WriteLine("Title: {0}\nAuthor: {1}\nSubject: {2}", Books[index].Title, Books[index].Author, Books[index].Subject);
+                Information_Of_Book(Books[index]);
                 ResetColor();
-                WriteLine("-----------------------------");
+                WriteLine("============================");
                 i++;
+              temp_List.Add(Books[index]);
             }
+            return temp_List;
         }
         // this fuction displays books for a given topic
-        public void Books_Subject(string subject)
+        public List<Book> Books_Subject(string subject)
         {
             List<Book> temp_Books = (from book in Books where book.Subject == subject select book).ToList();
             Group_Dispaly(temp_Books);
+            return temp_Books;
         }
         static public int Available_Book(List<Book> books)
         {
